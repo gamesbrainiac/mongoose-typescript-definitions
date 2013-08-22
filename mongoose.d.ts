@@ -1,4 +1,4 @@
-///<reference path='node.d.ts' />
+///<reference path='d.ts/DefinitelyTyped/node/node.d.ts' />
 
 export = M;
 
@@ -13,7 +13,7 @@ declare module M {
         connect(any): Mongoose;
 
         disconnect(fn: (err?: any) => void ): Mongoose;
-        model(name: string, schema?: Schema, collection?: string, skipInit?: boolean): Model;
+        model(name: string, schema?: Schema, collection?: string, skipInit?: boolean): Model<any>;
         modelNames(): string[];
         plugin(fn: (any) => any, opts?: any): Mongoose;
         mongo: any;
@@ -28,7 +28,7 @@ declare module M {
     export function connect(any): Mongoose;
 
     export function disconnect(fn: (err?: any) => void ): Mongoose;
-    export function model(name: string, schema?: Schema, collection?: string, skipInit?: boolean): Model;
+    export function model(name: string, schema?: Schema, collection?: string, skipInit?: boolean): Model<any>;
     export function modelNames(): string[];
     export function plugin(fn: (any) => any, opts?: any): Mongoose;
     export var mongo: any;
@@ -46,10 +46,10 @@ declare module M {
         on(event: string, listener: Function);
         once(event: string, listener: Function): void;
         removeListener(event: string, listener: Function): void;
-        removeAllListeners(event: string): void;
+        removeAllListeners(event?: string): void;
         setMaxListeners(n: number): void;
         listeners(event: string): { Function; }[];
-        emit(event: string, ...args: any[]): void;
+        emit(event: string, arg1?: any, arg2?: any): void;
 
         open(connection_string: string,
              database?: string,
@@ -64,7 +64,7 @@ declare module M {
 
         close(callback?: (any) => any): Connection;
         collection(name: string, options?: any): Collection;
-        model(name: string, schema?: Schema, collection?: string): Model;
+        model(name: string, schema?: Schema, collection?: string): Model<any>;
         modelNames(): string[];
         setProfiling(level: number, ms: number, callback: (any) => any): any;
         db: any;
@@ -96,8 +96,8 @@ declare module M {
         exec(callback: (err: any, res: T[]) => any): Promise;
         exec(operation: string, callback: (err: any, res: T[]) => void ): Promise;
 
-        skip(x: number): Query;
-        limit(x: number): Query;
+        skip(x: number): Query<any>;
+        limit(x: number): Query<any>;
     }
 
     export class Promise { }
