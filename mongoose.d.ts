@@ -1,5 +1,11 @@
-///<reference path='d.ts/DefinitelyTyped/node/node.d.ts' />
+/*
+ Changes
+ Added generic types, <any> to all generic types
+ Changed connection class's basic functions, listed with comment marks "// !!"
+    to follow node's EventEmitter class.
+ */
 
+///<reference path='d.ts/DefinitelyTyped/node/node.d.ts' />
 export = M;
 
 declare module M {
@@ -42,6 +48,7 @@ declare module M {
     export class Connection implements EventEmitter {
         constructor(base: Mongoose);
 
+        // !!
         addListener(event: string, listener: Function);
         on(event: string, listener: Function);
         once(event: string, listener: Function): void;
@@ -51,6 +58,7 @@ declare module M {
         listeners(event: string): { Function; }[];
         emit(event: string, arg1?: any, arg2?: any): void;
 
+        // !!
         open(connection_string: string,
              database?: string,
              port?: number,
