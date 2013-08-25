@@ -1,14 +1,6 @@
-/*
- Changes
- Added generic types, <any> to all generic types
- Changed connection class's basic functions, listed with comment marks "// !!"
-    to follow node's EventEmitter class.
- */
-
 ///<reference path='d.ts/DefinitelyTyped/node/node.d.ts' />
-export = M;
 
-declare module M {
+declare module mongoose {
 
     export interface Mongoose {
         constructor();
@@ -40,7 +32,7 @@ declare module M {
     export var mongo: any;
     export var version: string;
     export var connection: Connection;
-    
+
     export class Collection {
         name: string;
     }
@@ -155,28 +147,6 @@ declare module M {
 
         remove(conditions: any, callback?: (err) => void): Query<T>;
     }
-    /*
-    export var Model: {
-        (any);
-        constructor(doc?: any);
-        new (any);
-
-        find(conditions: any): Query;
-        find(conditions: any, fields: any): Query;
-        find(conditions: any, fields: any, options: any): Query;
-        find(conditions: any, fields: any, options: any, callback: (err: any, res: any) => void ): Query;
-        find(conditions: any, callback: (err: any, res: any) => void ): Query;
-        find(conditions: any, fields: any, callback: (err: any, res: any) => void ): Query;
-
-        findById(id: string): Query;
-        findById(id: string, fields: any): Query;
-        findById(id: string, fields: any, options: any): Query;
-        findById(id: string, fields: any, options: any, callback: (err: any, res: any) => void ): Query;
-        findById(id: string, callback: (err: any, res: any) => void ): Query;
-        findById(id: string, fields: any, callback: (err: any, res: any) => void ): Query;
-
-        collection: Collection;
-    }*/
 
     export interface Document {
         _id: string;
@@ -192,5 +162,6 @@ declare module M {
     export class SchemaTypes { }
 }
 
-
-    
+declare module "mongoose" {
+    export = mongoose;
+}
