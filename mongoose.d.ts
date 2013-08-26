@@ -1,10 +1,27 @@
 ///<reference path='d.ts/DefinitelyTyped/node/node.d.ts' />
 
-interface Mongoose {}
-
 declare module "mongoose" {
 
     module mongoose {
+
+        export class Mongoose {
+            constructor();
+
+            mongo: any;
+            version: string;
+            connection: Connection;
+
+            set (key: string, value: string): Mongoose;
+            get (key: string): string;
+            createConnection(uri?: string, options?: any): Connection;
+            connect(any): Mongoose;
+
+            disconnect(fn: (err?: any) => void ): Mongoose;
+            model(name: string, schema?: Schema, collection?: string, skipInit?: boolean): Model<any>;
+            modelNames(): string[];
+            plugin(fn: (any) => any, opts?: any): Mongoose;
+
+        }
 
         export var mongo: any;
         export var version: string;
