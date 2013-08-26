@@ -148,5 +148,5 @@ declare module "mongoose" {
         export class SchemaTypes { }
     }
 
-export = mongoose;
+    export = mongoose;
 }
