@@ -158,7 +158,46 @@ declare module "mongoose" {
             remove<T extends Document>(callback?: (err: any) => void ): Query<T>;
         }
 
-        export class MongooseError { }
+        interface MongooseError extends Error { }
+        interface CastError extends MongooseError { }
+        interface DocumentError extends MongooseError { }
+        interface ValidationError extends MongooseError {
+            errors: MongooseError[];
+        }
+        interface ValidatorError extends MongooseError { }
+        interface VersionError extends MongooseError { }
+        interface OverwriteModelError extends MongooseError { }
+        interface MissingSchemaError extends MongooseError { }
+        interface DivergentArrayError extends MongooseError { }
+
+        export var Error: {
+            new (message?: string): MongooseError;
+
+            CastError: {
+                new (type: any, value: any, path: string): CastError;
+            }
+            DocumentError: {
+                new (message?: string): DocumentError;
+            }
+            ValidationError: {
+                new (instance: Object): ValidationError;
+            }
+            ValidatorError: {
+                new (path: string, msg?: string, val?: any): ValidatorError;
+            }
+            VersionError: {
+                new (): VersionError;
+            }
+            OverwriteModelError: {
+                new (name: string): OverwriteModelError;
+            }
+            MissingSchemaError: {
+                new (name: string): MissingSchemaError;
+            }
+            DivergentArrayError: {
+                new (paths: string[]): DivergentArrayError;
+            }
+        }
 
         export class Types { }
 
