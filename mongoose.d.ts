@@ -106,7 +106,7 @@ declare module "mongoose" {
         export class Promise { }
 
         export interface Model<T extends Document> {
-            new (doc: any): Document;
+            new (doc: any): T;
 
             find(conditions: any): Query<T>;
             find(conditions: any, fields: any): Query<T>;
