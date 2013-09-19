@@ -14,12 +14,12 @@ declare module "mongoose" {
             set (key: string, value: string): Mongoose;
             get (key: string): string;
             createConnection(uri?: string, options?: any): Connection;
-            connect(any): Mongoose;
+            connect(...args: any[]): Mongoose;
 
             disconnect(fn: (err?: any) => void ): Mongoose;
             model(name: string, schema?: Schema, collection?: string, skipInit?: boolean): Model<any>;
             modelNames(): string[];
-            plugin(fn: (any) => any, opts?: any): Mongoose;
+            plugin(fn: (...args: any[]) => any, opts?: any): Mongoose;
 
         }
 
@@ -30,12 +30,12 @@ declare module "mongoose" {
         export function set (key: string, value: string): Mongoose;
         export function get (key: string): string;
         export function createConnection(uri?: string, options?: any): Connection;
-        export function connect(any): Mongoose;
+        export function connect(...args: any[]): Mongoose;
 
         export function disconnect(fn: (err?: any) => void ): Mongoose;
-        export function model(name: string, schema?: Schema, collection?: string, skipInit?: boolean): Model<any>;
+        export function model(name: string, schema?: Object, collection?: string, skipInit?: boolean): Model<any>;
         export function modelNames(): string[];
-        export function plugin(fn: (any) => any, opts?: any): Mongoose;
+        export function plugin(fn: (schema: Schema, options?: Object) => void, opts?: any): Mongoose;
 
         export class Collection {
             name: string;
@@ -57,18 +57,18 @@ declare module "mongoose" {
                  database?: string,
                  port?: number,
                  options?: any,
-                 callback?: (any) => any): Connection;
+                 callback?: (err: any, db?: any) => void): Connection;
 
             openSet(uris: string,
                     database?: string,
                     options?: any,
-                    callback?: (any) => any): Connection;
+                    callback?: (err: any, db?: any) => void): Connection;
 
-            close(callback?: (any) => any): Connection;
+            close(callback?: Function): Connection;
             collection(name: string, options?: any): Collection;
             model(name: string, schema?: Schema, collection?: string): Model<any>;
             modelNames(): string[];
-            setProfiling(level: number, ms: number, callback: (any) => any): any;
+            setProfiling(level: number, ms: number, callback: Function): any;
             db: any;
             collections: any;
             readyState: number;
@@ -86,7 +86,7 @@ declare module "mongoose" {
             statics: any;
             path(path: string): any;
             virtual(path: string): any;
-            pre(method: string, callback: (next: (any?) => any) => any): void;
+            pre(method: string, callback: (next: () => void) => void): void;
         }
 
         export class SchemaType { }
@@ -106,7 +106,7 @@ declare module "mongoose" {
         export class Promise { }
 
         export interface Model<T extends Document> {
-            new (any): Document;
+            new (doc: any): Document;
 
             find(conditions: any): Query<T>;
             find(conditions: any, fields: any): Query<T>;
@@ -148,14 +148,14 @@ declare module "mongoose" {
 
             collection: Collection;
 
-            remove(conditions: any, callback?: (err) => void): Query<T>;
+            remove(conditions: any, callback?: (err: any) => void): Query<T>;
         }
 
         export interface Document {
             _id: string;
             update<T extends Document>(doc: any, options: any, callback: (err: any, affectedRows: number, raw: any) => void ): Query<T>;
             save<T extends Document>(fn?: (err: any, res: T) => void ): void;
-            remove<T extends Document>(callback?: (err) => void ): Query<T>;
+            remove<T extends Document>(callback?: (err: any) => void ): Query<T>;
         }
 
         export class MongooseError { }
