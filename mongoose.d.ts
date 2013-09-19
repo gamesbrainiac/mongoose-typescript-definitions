@@ -152,10 +152,33 @@ declare module "mongoose" {
         }
 
         export interface Document {
-            _id: string;
-            update<T extends Document>(doc: any, options: any, callback: (err: any, affectedRows: number, raw: any) => void ): Query<T>;
-            save<T extends Document>(fn?: (err: any, res: T) => void ): void;
-            remove<T extends Document>(callback?: (err: any) => void ): Query<T>;
+            schema: Schema;
+            isNew: boolean;
+            id: string;
+            errors: Object;
+            update<T extends Document>(update: Object, options?: Object, callback?: (err: any, numberAffected?: number, raw?: any) => void): Query<T>;
+            update<T extends Document>(update: Object, callback: (err: any, numberAffected?: number, raw?: any) => void): Query<T>;
+            save<T extends Document>(callback: (err: any, res?: T) => void): Query<T>;
+            remove<T extends Document>(callback: (err: any) => void): Query<T>;
+            set(path: any, val: any, type?: SchemaTypes, options?: Object): Document;
+            set(path: any, val: any, options: Object): Document;
+            get(path: string, type?: SchemaTypes): any;
+            markModified(path: string): void;
+            modifiedPaths(): string[];
+            isModified(path?: string): boolean;
+            isDirectModified(path: string): boolean;
+            isInit(path: string):boolean;
+            isSelected(path: string): boolean;
+            validate(cb: (err: any) => void): Document;
+            invalidate(path: string, err: any, value?: any): void;
+            toObject(options?: Object): any;
+            toJSON(options?: Object): any;
+            inspect(options?: Object): any;
+            toString(): string;
+            equals(doc: Document): boolean;
+            populate(path?: string, callback?: (err: any, doc: any) => void): Document;
+            populate(options: Object, callback?: (err: any, doc: any) => void): Document;
+            populated(path: string): any;
         }
 
         interface MongooseError extends Error { }
