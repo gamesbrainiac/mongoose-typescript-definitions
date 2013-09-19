@@ -107,48 +107,59 @@ declare module "mongoose" {
 
         export interface Model<T extends Document> {
             new (doc: any): T;
-
-            find(conditions: any): Query<T>;
-            find(conditions: any, fields: any): Query<T>;
-            find(conditions: any, fields: any, options: any): Query<T>;
-            find(conditions: any, fields: any, options: any, callback: (err: any, res: any) => void ): Query<T>;
-            find(conditions: any, callback: (err: any, res: T[]) => void ): Query<T>;
-            find(conditions: any, fields: any, callback: (err: any, res: T[]) => void ): Query<T>;
-
-            findOne(conditions: any): Query<T>;
-            findOne(conditions: any, fields: any): Query<T>;
-            findOne(conditions: any, fields: any, options: any): Query<T>;
-            findOne(conditions: any, fields: any, options: any, callback: (err: any, res: T) => void ): Query<T>;
-            findOne(conditions: any, callback: (err: any, res: T) => void ): Query<T>;
-            findOne(conditions: any, fields: any, callback: (err: any, res: T) => void ): Query<T>;
-
-            findById(id: string): Query<T>;
-            findById(id: string, fields: any): Query<T>;
-            findById(id: string, fields: any, options: any): Query<T>;
-            findById(id: string, fields: any, options: any, callback: (err: any, res: T) => void ): Query<T>;
-            findById(id: string, callback: (err: any, res: T) => void ): Query<T>;
-            findById(id: string, fields: any, callback: (err: any, res: T) => void ): Query<T>;
-
-            findByIdAndUpdate(id: string): Query<T>;
-            findByIdAndUpdate(id: string, update: any): Query<T>;
-            findByIdAndUpdate(id: string, update: any, options: any): Query<T>;
-            findByIdAndUpdate(id: string, update: any, options: any, callback: (err: any, res: T[]) => void ): Query<T>;
-            findByIdAndUpdate(id: string, callback: (err: any, res: T[]) => void ): Query<T>;
-            findByIdAndUpdate(id: string, update: any, callback: (err: any, res: T[]) => void ): Query<T>;
-
-            update(conditions: any,
-                   update: any,
-                   options?: any,
-                   callback?: (err: any, affectedRows: number, raw: any) => void ): Query<T>;
-            update(conditions: any,
-                   update: any,
-                   callback?: (err: any, affectedRows: number, raw: any) => void ): Query<T>;
-
-            create(doc: any, fn: (err: any, res: T) => void ): void;
-
+            db: any;
             collection: Collection;
+            modelName: string;
+            schema: Schema;
+            base: Mongoose;
 
+            find(conditions: any, fields?: any, options?: any, callback?: (err: any, res: any) => void ): Query<T>;
+            find(conditions: any, fields: any, callback: (err: any, res: T[]) => void ): Query<T>;
+            find(conditions: any, callback: (err: any, res: T[]) => void ): Query<T>;
+
+            findOne(conditions: any, fields?: any, options?: any, callback?: (err: any, res: T) => void ): Query<T>;
+            findOne(conditions: any, fields: any, callback: (err: any, res: T) => void ): Query<T>;
+            findOne(conditions: any, callback: (err: any, res: T) => void ): Query<T>;
+
+            findById(id: string, fields?: any, options?: any, callback?: (err: any, res: T) => void ): Query<T>;
+            findById(id: string, fields: any, callback: (err: any, res: T) => void ): Query<T>;
+            findById(id: string, callback: (err: any, res: T) => void ): Query<T>;
+
+            findByIdAndUpdate(id: string, update?: any, options?: any, callback?: (err: any, res: T[]) => void ): Query<T>;
+            findByIdAndUpdate(id: string, update: any, callback: (err: any, res: T[]) => void ): Query<T>;
+            findByIdAndUpdate(id: string, callback: (err: any, res: T[]) => void ): Query<T>;
+
+            findByIdAndRemove(id: any, options?: Object, callback?: (err: any) => void): Query<T>;
+            findByIdAndRemove(id: any, callback: (err: any) => void): Query<T>;
+
+            findOneAndUpdate(conditions?: Object, update?: Object, options?: Object, callback?: (err: any, doc: any) => void): Query<T>;
+            findOneAndUpdate(conditions: Object, update: Object, callback: (err: any, doc: any) => void): Query<T>;
+
+            findOneAndRemove(conditions: Object, options?: Object, callback?: (err: any) => void): Query<T>;
+            findOneAndRemove(conditions: Object, callback: (err: any) => void): Query<T>;
+
+            update(conditions: Object, update: Object, options?: Object, callback?: (err: any, affectedRows?: number, raw?: any) => void): Query<T>;
+            update(conditions: Object, update: Object, callback: (err: any, affectedRows?: number, raw?: any) => void): Query<T>;
+
+            distinct(field: string, conditions?: Object, callback?: (err: any, result: any) => void): Query<T>;
+            distinct(field: string, callback: (err: any, result: any) => void): Query<T>;
+
+            where(path: string, val?: Object): Query<T>;
+            $where(argument: string): Query<T>;
+            $where(argument: (err: any, docs: any) => void): Query<T>;
+
+            aggregate(array: Object[], options?: Object, callback?: (err: any, res: any) => void): any;
+            aggregate(array: Object[], callback: (err: any, res: any) => void): any;
+
+            populate(doc: Object, options: Object, callback: (err: any, doc: any) => void): void;
+            populate(docs: Object[], options: Object, callback: (err: any, docs: Object[]) => void): void;
+
+            create(doc: any, fn: (err: any, res: T) => void): void;
             remove(conditions: any, callback?: (err: any) => void): Query<T>;
+            increment(): Model<T>;
+            ensureIndexes(cb?: (err: any) => void): void;
+            count(conditions?: Object, callback?: (err: any, count: any) => void): Query<T>;
+            mapReduce(o: Object, callback: (err: any, model: Model, stats: any) => void): void;
         }
 
         export interface Document {
@@ -156,8 +167,8 @@ declare module "mongoose" {
             isNew: boolean;
             id: string;
             errors: Object;
-            update<T extends Document>(update: Object, options?: Object, callback?: (err: any, numberAffected?: number, raw?: any) => void): Query<T>;
-            update<T extends Document>(update: Object, callback: (err: any, numberAffected?: number, raw?: any) => void): Query<T>;
+            update<T extends Document>(update: Object, options?: Object, callback?: (err: any, affectedRows?: number, raw?: any) => void): Query<T>;
+            update<T extends Document>(update: Object, callback: (err: any, affectedRows?: number, raw?: any) => void): Query<T>;
             save<T extends Document>(callback: (err: any, res?: T) => void): Query<T>;
             remove<T extends Document>(callback: (err: any) => void): Query<T>;
             set(path: any, val: any, type?: SchemaTypes, options?: Object): Document;
