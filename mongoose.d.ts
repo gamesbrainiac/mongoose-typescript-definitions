@@ -44,13 +44,13 @@ declare module "mongoose" {
         export class Connection implements EventEmitter {
             constructor(base: Mongoose);
 
-            addListener(event: string, listener: Function);
-            on(event: string, listener: Function);
+            addListener(event: string, listener: Function): void;
+            on(event: string, listener: Function): void;
             once(event: string, listener: Function): void;
             removeListener(event: string, listener: Function): void;
             removeAllListeners(event?: string): void;
             setMaxListeners(n: number): void;
-            listeners(event: string): { Function; }[];
+            listeners(event: string): Function[];
             emit(event: string, arg1?: any, arg2?: any): void;
 
             open(connection_string: string,
