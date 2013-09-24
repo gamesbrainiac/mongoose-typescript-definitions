@@ -177,9 +177,9 @@ declare module "mongoose" {
     sparse(bool: boolean): SchemaType;
     set(fn: (val: any, schemaType?: SchemaType) => any): SchemaType;
     get(fn: (val: any, schemaType?: SchemaType) => any): SchemaType;
-    validate(obj: RegExp, error: string): SchemaType;
-    validate(obj: (val: any, callback?: (val: boolean) => void) => void, error: string): SchemaType;
-    validate(obj: Object, error: string): SchemaType;
+    validate(obj: RegExp, error?: string): SchemaType;
+    validate(obj: (val: any, callback?: (val: boolean) => void) => void, error?: string): SchemaType;
+    validate(obj: Object, error?: string): SchemaType;
     required(bool: boolean): SchemaType;
     select(val: boolean): SchemaType;
   }
