@@ -124,8 +124,8 @@ declare module "mongoose" {
     name: string;
   }
 
-  class Connection implements EventEmitter {
-    constructor(base: Mongoose);
+  interface Connection extends EventEmitter {
+    new (base: Mongoose): Connection;
 
     open(connection_string: string, database?: string, port?: number, options?: ConnectionOptions, callback?: (err: any, db?: any) => void): Connection;
     openSet(uris: string, database?: string, options?: ConnectionOptions, callback?: (err: any, db?: any) => void): Connection;
@@ -138,16 +138,6 @@ declare module "mongoose" {
     db: any;
     collections: any;
     readyState: number;
-
-    // EventEmitter
-    addListener(event: string, listener: Function): void;
-    on(event: string, listener: Function): void;
-    once(event: string, listener: Function): void;
-    removeListener(event: string, listener: Function): void;
-    removeAllListeners(event?: string): void;
-    setMaxListeners(n: number): void;
-    listeners(event: string): Function[];
-    emit(event: string, arg1?: any, arg2?: any): void;
   }
 
   class Schema {
