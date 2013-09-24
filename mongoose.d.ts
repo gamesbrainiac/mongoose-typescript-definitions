@@ -86,7 +86,7 @@ declare module "mongoose" {
             statics: any;
             path(path: string): any;
             virtual(path: string): any;
-            pre(method: string, callback: (next: () => void) => void): void;
+            pre(method: string, callback: Function): Schema;
         }
 
         export class SchemaType { }
@@ -106,7 +106,7 @@ declare module "mongoose" {
         export class Promise { }
 
         export interface Model<T extends Document> {
-            new (doc: any): T;
+            new (doc?: any): T;
             db: any;
             collection: Collection;
             modelName: string;
