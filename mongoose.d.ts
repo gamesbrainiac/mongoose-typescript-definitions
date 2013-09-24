@@ -120,7 +120,7 @@ declare module "mongoose" {
   function modelNames(): string[];
   function plugin(fn: (schema: Schema, options?: Object) => void, opts?: any): Mongoose;
 
-  class Collection {
+  interface Collection {
     name: string;
   }
 
@@ -180,7 +180,7 @@ declare module "mongoose" {
     virtualpath(name: string): VirtualType;
   }
 
-  class SchemaType {
+  interface SchemaType {
     default(val: any): any;
     index(options?: Object): SchemaType;
     unique(bool: boolean): SchemaType;
@@ -194,14 +194,14 @@ declare module "mongoose" {
     select(val: boolean): SchemaType;
   }
 
-  class VirtualType {
+  interface VirtualType {
     get(fn: () => any): VirtualType;
     set(fn: (val: any) => void): VirtualType;
     applyGetters(value: any, scope: any): any;
     applySetters(value: any, scope: any): any;
   }
 
-  class Query<T extends Document> {
+  interface Query<T extends Document> {
     setOptions(options: QueryOptions): Query<T>;
     exec(operation?: string, callback?: (err: any, res: T[]) => void): Promise;
     exec(callback: (err: any, res: T[]) => any): Promise;
