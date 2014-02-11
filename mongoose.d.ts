@@ -124,7 +124,7 @@ declare module "mongoose" {
     name: string;
   }
 
-  interface Connection extends EventEmitter {
+  interface Connection extends NodeEventEmitter {
     new (base: Mongoose): Connection;
 
     open(connection_string: string, database?: string, port?: number, options?: ConnectionOptions, callback?: (err: any, db?: any) => void): Connection;
@@ -284,8 +284,8 @@ declare module "mongoose" {
     center(val: Object, opts?: Object): QueryWithin<T>;
     centerSphere(path: string, val: Object): QueryWithin<T>;
     centerSphere(val: Object): QueryWithin<T>;
-    polygon(path: string, val: Array): QueryWithin<T>;
-    polygon(val: Array): QueryWithin<T>;
+    polygon(path: string, val: any[]): QueryWithin<T>;
+    polygon(val: any[]): QueryWithin<T>;
     polygon(path: string, val: Object): QueryWithin<T>;
     polygon(val: Object): QueryWithin<T>;
     geometry(path: string, val: Object): QueryWithin<T>;
@@ -359,7 +359,7 @@ declare module "mongoose" {
     increment(): Model<T>;
     ensureIndexes(cb?: (err: any) => void): void;
     count(conditions?: Object, callback?: (err: any, count: any) => void): Query<T>;
-    mapReduce(o: Object, callback: (err: any, model: Model, stats: any) => void): void;
+    mapReduce(o: Object, callback: (err: any, model: Model<T>, stats: any) => void): void;
   }
 
   interface Document {
