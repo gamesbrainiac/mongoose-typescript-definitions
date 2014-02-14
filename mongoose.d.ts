@@ -191,7 +191,7 @@ declare module "mongoose" {
     applySetters(value: any, scope: any): any;
   }
 
-  interface Query<T extends Document> {
+  interface Query<T> {
     setOptions(options: QueryOptions): Query<T>;
     exec(operation?: string, callback?: (err: any, res: T[]) => void): Promise;
     exec(callback: (err: any, res: T[]) => any): Promise;
@@ -263,12 +263,12 @@ declare module "mongoose" {
     distinct(field: string, callback: (err: any, result: any[]) => void): Query<T>;
     update(doc: Object, callback?: (err: any, numberAffected?: number, raw?: any) => void): Query<T>;
     remove(callback?: (err: any) => void): Query<T>;
-    findOneAndUpdate(query: Object, doc: Object, options: Object, callback?: (err: any, doc: any) => void): Query<T>;
-    findOneAndUpdate(query: Object, doc: Object, callback?: (err: any, doc: any) => void): Query<T>;
-    findOneAndUpdate(callback?: (err: any, doc: any) => void): Query<T>;
-    findOneAndRemove(query: Object, options: Object, callback?: (err: any) => void): Query<T>;
-    findOneAndRemove(query: Object, callback?: (err: any) => void): Query<T>;
-    findOneAndRemove(callback?: (err: any) => void): Query<T>;
+    findOneAndUpdate(query: Object, doc: Object, options: Object, callback?: (err: any, doc: any) => void): QueryOne<T>;
+    findOneAndUpdate(query: Object, doc: Object, callback?: (err: any, doc: any) => void): QueryOne<T>;
+    findOneAndUpdate(callback?: (err: any, doc: any) => void): QueryOne<T>;
+    findOneAndRemove(query: Object, options: Object, callback?: (err: any) => void): QueryOne<T>;
+    findOneAndRemove(query: Object, callback?: (err: any) => void): QueryOne<T>;
+    findOneAndRemove(callback?: (err: any) => void): QueryOne<T>;
     populate(path: string, select?: Object, model?: Model<Document>, match?: Object, options?: Object): Query<T>;
     populate(path: string, select?: string, model?: Model<Document>, match?: Object, options?: Object): Query<T>;
     populate(args: Object): Query<T>;
@@ -277,7 +277,93 @@ declare module "mongoose" {
     within: QueryWithin<T>;
   }
 
-  interface QueryWithin<T extends Document> extends Query<T> {
+  interface QueryOne<T> {
+    setOptions(options: QueryOptions): QueryOne<T>;
+    exec(operation?: string, callback?: (err: any, res: T) => void): Promise;
+    exec(callback: (err: any, res: T) => any): Promise;
+    find(criteria: Object, callback?: Function): Query<T>;
+    find(callback: Function): Query<T>;
+    cast(model: Model<Document>, obj?: Object): any;
+    $where(js: string): QueryOne<T>;
+    $where(js: Function): QueryOne<T>;
+    where(path?: string, val?: Object): QueryOne<T>;
+    equals(val: any): QueryOne<T>;
+    or(array: Object[]): QueryOne<T>;
+    nor(array: Object[]): QueryOne<T>;
+    and(array: Object[]): QueryOne<T>;
+    gt(path: string, val: number): QueryOne<T>;
+    gt(val: number): QueryOne<T>;
+    gte(path: string, val: number): QueryOne<T>;
+    gte(val: number): QueryOne<T>;
+    lt(path: string, val: number): QueryOne<T>;
+    lt(val: number): QueryOne<T>;
+    lte(path: string, val: number): QueryOne<T>;
+    lte(val: number): QueryOne<T>;
+    ne(path: string, val: any): QueryOne<T>;
+    ne(val: any): QueryOne<T>;
+    in(path: string, val: any): QueryOne<T>;
+    in(val: any): QueryOne<T>;
+    nin(path: string, val: any): QueryOne<T>;
+    nin(val: any): QueryOne<T>;
+    all(path: string, val: any): QueryOne<T>;
+    all(val: any): QueryOne<T>;
+    size(path: string, val: number): QueryOne<T>;
+    size(val: number): QueryOne<T>;
+    regex(path: string, val: any): QueryOne<T>;
+    regex(val: any): QueryOne<T>;
+    maxDistance(path: string, val: number): QueryOne<T>;
+    maxDistance(val: number): QueryOne<T>;
+    near(path: string, ...val: number[]): QueryOne<T>;
+    near(val: number): QueryOne<T>;
+    nearSphere(path: string, ...val: number[]): QueryOne<T>;
+    nearSphere(val: number): QueryOne<T>;
+    mod(path: string, val: number[]): QueryOne<T>;
+    mod(path: string, ...val: number[]): QueryOne<T>;
+    mod(val: number[]): QueryOne<T>;
+    mod(...val: number[]): QueryOne<T>;
+    exists(path: string, val?: boolean): QueryOne<T>;
+    exists(val?: boolean): QueryOne<T>;
+    elemMatch(path: string, val: any): QueryOne<T>;
+    elemMatch(val: any): QueryOne<T>;
+    intersects: QueryOne<T>;
+    select(arg: Object): QueryOne<T>;
+    select(arg: string): QueryOne<T>;
+    slice(path: string, val: number): QueryOne<T>;
+    slice(...val: number[]): QueryOne<T>;
+    slice(val: number[]): QueryOne<T>;
+    sort(arg: Object): QueryOne<T>;
+    sort(arg: String): QueryOne<T>;
+    limit(val: number): QueryOne<T>;
+    skip(val: number): QueryOne<T>;
+    maxscan(val: number): QueryOne<T>;
+    batchSize(val: number): QueryOne<T>;
+    comment(val: number): QueryOne<T>;
+    snapShot(): QueryOne<T>;
+    hint(val: Object): QueryOne<T>;
+    slaveOk(v?: boolean): QueryOne<T>;
+    read(pref: string, tags?: Object[]): QueryOne<T>;
+    lean(v?: boolean): QueryOne<T>;
+    tailable(v?: boolean): QueryOne<T>;
+    findOne(callback: (err: any, result: any) => void): QueryOne<T>;
+    count(callback: (err: any, result: number) => void): QueryOne<T>;
+    distinct(field: string, callback: (err: any, result: any[]) => void): QueryOne<T>;
+    update(doc: Object, callback?: (err: any, numberAffected?: number, raw?: any) => void): QueryOne<T>;
+    remove(callback?: (err: any) => void): QueryOne<T>;
+    findOneAndUpdate(query: Object, doc: Object, options: Object, callback?: (err: any, doc: any) => void): QueryOne<T>;
+    findOneAndUpdate(query: Object, doc: Object, callback?: (err: any, doc: any) => void): QueryOne<T>;
+    findOneAndUpdate(callback?: (err: any, doc: any) => void): QueryOne<T>;
+    findOneAndRemove(query: Object, options: Object, callback?: (err: any) => void): QueryOne<T>;
+    findOneAndRemove(query: Object, callback?: (err: any) => void): QueryOne<T>;
+    findOneAndRemove(callback?: (err: any) => void): QueryOne<T>;
+    populate(path: string, select?: Object, model?: Model<Document>, match?: Object, options?: Object): QueryOne<T>;
+    populate(path: string, select?: string, model?: Model<Document>, match?: Object, options?: Object): QueryOne<T>;
+    populate(args: Object): QueryOne<T>;
+
+    stream(): QueryStream;
+    within: QueryWithin<T>;
+  }
+
+  interface QueryWithin<T> extends Query<T> {
     box(path: string, val: Object): QueryWithin<T>;
     box(val: Object): QueryWithin<T>;
     center(path: string, val: Object, opts?: Object): QueryWithin<T>;
@@ -290,6 +376,21 @@ declare module "mongoose" {
     polygon(val: Object): QueryWithin<T>;
     geometry(path: string, val: Object): QueryWithin<T>;
     geometry(val: Object): QueryWithin<T>;
+  }
+
+  interface QueryOneWithin<T> extends QueryOne<T> {
+    box(path: string, val: Object): QueryOneWithin<T>;
+    box(val: Object): QueryOneWithin<T>;
+    center(path: string, val: Object, opts?: Object): QueryOneWithin<T>;
+    center(val: Object, opts?: Object): QueryOneWithin<T>;
+    centerSphere(path: string, val: Object): QueryOneWithin<T>;
+    centerSphere(val: Object): QueryOneWithin<T>;
+    polygon(path: string, val: any[]): QueryOneWithin<T>;
+    polygon(val: any[]): QueryOneWithin<T>;
+    polygon(path: string, val: Object): QueryOneWithin<T>;
+    polygon(val: Object): QueryOneWithin<T>;
+    geometry(path: string, val: Object): QueryOneWithin<T>;
+    geometry(val: Object): QueryOneWithin<T>;
   }
 
   interface Promise {
@@ -317,29 +418,28 @@ declare module "mongoose" {
     find(conditions: any, fields: any, callback: (err: any, res: T[]) => void): Query<T>;
     find(conditions: any, callback: (err: any, res: T[]) => void): Query<T>;
 
-    findOne(conditions: any, fields?: any, options?: any, callback?: (err: any, res: T) => void): Query<T>;
-    findOne(conditions: any, fields: any, callback: (err: any, res: T) => void): Query<T>;
-    findOne(conditions: any, callback: (err: any, res: T) => void): Query<T>;
+    findOne(conditions: any, fields?: any, options?: any, callback?: (err: any, res: T) => void): QueryOne<T>;
+    findOne(conditions: any, fields: any, callback: (err: any, res: T) => void): QueryOne<T>;
+    findOne(conditions: any, callback: (err: any, res: T) => void): QueryOne<T>;
 
-    findById(id: string, fields?: any, options?: any, callback?: (err: any, res: T) => void): Query<T>;
-    findById(id: string, fields: any, callback: (err: any, res: T) => void): Query<T>;
-    findById(id: string, callback: (err: any, res: T) => void): Query<T>;
+    findById(id: string, fields?: any, options?: any, callback?: (err: any, res: T) => void): QueryOne<T>;
+    findById(id: string, fields: any, callback: (err: any, res: T) => void): QueryOne<T>;
+    findById(id: string, callback: (err: any, res: T) => void): QueryOne<T>;
 
-    findByIdAndUpdate(id: string, update?: any, options?: any, callback?: (err: any, res: T[]) => void): Query<T>;
-    findByIdAndUpdate(id: string, update: any, callback: (err: any, res: T[]) => void): Query<T>;
-    findByIdAndUpdate(id: string, callback: (err: any, res: T[]) => void): Query<T>;
+    findByIdAndUpdate(id: string, update: any, options?: any, callback?: (err: any, res: T) => void): QueryOne<T>;
+    findByIdAndUpdate(id: string, update: any, callback: (err: any, res: T) => void): QueryOne<T>;
 
-    findByIdAndRemove(id: any, options?: Object, callback?: (err: any) => void): Query<T>;
-    findByIdAndRemove(id: any, callback: (err: any) => void): Query<T>;
+    findByIdAndRemove(id: any, options?: Object, callback?: (err: any, numberOfRemovedDocs?: number) => void): QueryOne<number>;
+    findByIdAndRemove(id: any, callback: (err: any, numberOfRemovedDocs?: number) => void): QueryOne<number>;
 
-    findOneAndUpdate(conditions?: Object, update?: Object, options?: Object, callback?: (err: any, doc: any) => void): Query<T>;
-    findOneAndUpdate(conditions: Object, update: Object, callback: (err: any, doc: any) => void): Query<T>;
+    findOneAndUpdate(conditions?: Object, update?: Object, options?: Object, callback?: (err: any, doc?: any) => void): QueryOne<any>;
+    findOneAndUpdate(conditions: Object, update: Object, callback: (err: any, doc?: any) => void): QueryOne<any>;
 
-    findOneAndRemove(conditions: Object, options?: Object, callback?: (err: any) => void): Query<T>;
-    findOneAndRemove(conditions: Object, callback: (err: any) => void): Query<T>;
+    findOneAndRemove(conditions: Object, options?: Object, callback?: (err: any, doc?: any) => void): QueryOne<any>;
+    findOneAndRemove(conditions: Object, callback: (err: any, doc?: any) => void): QueryOne<any>;
 
-    update(conditions: Object, update: Object, options?: Object, callback?: (err: any, affectedRows?: number, raw?: any) => void): Query<T>;
-    update(conditions: Object, update: Object, callback: (err: any, affectedRows?: number, raw?: any) => void): Query<T>;
+    update(conditions: Object, update: Object, options?: Object, callback?: (err: any, affectedRows?: number, raw?: any) => void): QueryOne<number>;
+    update(conditions: Object, update: Object, callback: (err: any, affectedRows?: number, raw?: any) => void): QueryOne<number>;
 
     distinct(field: string, conditions?: Object, callback?: (err: any, result: any) => void): Query<T>;
     distinct(field: string, callback: (err: any, result: any) => void): Query<T>;
@@ -355,10 +455,10 @@ declare module "mongoose" {
     populate(docs: Object[], options: Object, callback: (err: any, docs: Object[]) => void): void;
 
     create(doc: any, fn: (err: any, res: T) => void): void;
-    remove(conditions: any, callback?: (err: any) => void): Query<T>;
+    remove(conditions: any, callback?: (err: any) => void): QueryOne<any>;
     increment(): Model<T>;
     ensureIndexes(cb?: (err: any) => void): void;
-    count(conditions?: Object, callback?: (err: any, count: any) => void): Query<T>;
+    count(conditions?: Object, callback?: (err: any, count: number) => void): QueryOne<number>;
     mapReduce(o: Object, callback: (err: any, model: Model<T>, stats: any) => void): void;
   }
 
@@ -368,11 +468,11 @@ declare module "mongoose" {
     id: string;
     errors: Object;
 
-    update<T extends Document>(update: Object, options?: Object, callback?: (err: any, affectedRows?: number, raw?: any) => void): Query<T>;
-    update<T extends Document>(update: Object, callback: (err: any, affectedRows?: number, raw?: any) => void): Query<T>;
+    update<T extends Document>(update: Object, options?: Object, callback?: (err: any, affectedRows?: number, raw?: any) => void): QueryOne<number>;
+    update<T extends Document>(update: Object, callback: (err: any, affectedRows?: number, raw?: any) => void): QueryOne<number>;
 
-    save<T extends Document>(callback: (err: any, res?: T) => void): Query<T>;
-    remove<T extends Document>(callback: (err: any) => void): Query<T>;
+    save<T extends Document>(callback?: (err: any, res?: T) => void): QueryOne<T>;
+    remove<T extends Document>(callback?: (err: any) => void): QueryOne<any>;
 
     set(path: any, val: any, type?: SchemaTypes, options?: Object): Document;
     set(path: any, val: any, options: Object): Document;

@@ -118,3 +118,58 @@ function middleware() {
       next();
     })
 }
+
+function exec() {
+  var BlogPost = mongoose.model('BlogPost');
+
+  BlogPost.find({}).limit(5).exec(function(err, blogPosts){
+    //Verify blogPosts is an array
+    blogPosts[0] = blogPosts[1];
+
+    console.log(blogPosts[0].title);
+  });
+
+  BlogPost.findOne({}).limit(5).exec(function(err, blogPost){
+    //Verify blogPost is not an array
+    console.log(blogPost.title);
+  });
+
+  BlogPost.findById('id').exec(function(err, blogPost){
+    console.log(blogPost.title);
+  });
+
+  BlogPost.findByIdAndUpdate('id', { $set: { title: 'new' } }).exec(function(err, blogPost){
+    console.log(blogPost.title);
+  });
+
+  BlogPost.findByIdAndRemove('id').exec(function(err, numberOfRemovedDocs){
+    //Verify numberOfRemovedDocs is a number
+    if(numberOfRemovedDocs === 1){
+      console.log(numberOfRemovedDocs);
+    }
+  });
+
+  BlogPost.findOneAndUpdate({}).exec(function(err, doc){
+    //doc will be the raw document from mongo, not a Mongoose model
+    console.log(doc.xyz);
+  });
+
+  BlogPost.findOneAndRemove({}).exec(function(err, doc){
+    //doc will be the raw document from mongo, not a Mongoose model
+    console.log(doc.xyz);
+  });
+
+  BlogPost.update({}, {}).exec(function(err, affectedRows){
+    if(affectedRows === 1){
+      console.log(affectedRows);
+    }
+  });
+
+  BlogPost.count().exec(function(err, count){
+    //Verify count is a number
+    if(count === 5){
+      console.log(count);
+    }
+  });
+
+}
